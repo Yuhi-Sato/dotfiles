@@ -3,6 +3,7 @@ brew "powerlevel10k"
 brew "zsh-autosuggestions"
 brew "zsh-syntax-highlighting"
 brew "fzf"
+brew "zoxide"
 
 # Git
 brew "lazygit"
