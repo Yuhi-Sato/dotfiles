@@ -11,7 +11,6 @@ brew "gh"
 
 # Development
 brew "jq"
-brew "rbenv"
 brew "yarn"
 brew "mysql"
 

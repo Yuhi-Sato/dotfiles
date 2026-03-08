@@ -1,0 +1,46 @@
+export PATH="$HOME/.local/bin:$PATH"
+export EDITOR="cursor --wait"
+export GITHUB_USERNAME="Yuhi-Sato"
+
+if [ -f $HOME/.zshrc.local ]; then
+  source $HOME/.zshrc.local
+fi
+
+# Enable Powerlevel10k instant prompt. Should stay close to the top of ~/.zshrc.
+# Initialization code that may require console input (password prompts, [y/n]
+# confirmations, etc.) must go above this block; everything else may go below.
+if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
+  source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
+fi
+
+# OS-specific plugin paths
+{{- if eq .chezmoi.os "darwin" }}
+_BREW_PREFIX=$(brew --prefix)
+_P10K=$_BREW_PREFIX/share/powerlevel10k/powerlevel10k.zsh-theme
+_ZSH_AUTOSUGGESTIONS=$_BREW_PREFIX/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+_ZSH_SYNTAX_HIGHLIGHTING=$_BREW_PREFIX/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_FZF_KEY_BINDINGS=$_BREW_PREFIX/opt/fzf/shell/key-bindings.zsh
+_FZF_COMPLETION=$_BREW_PREFIX/opt/fzf/shell/completion.zsh
+{{- else if eq .chezmoi.os "linux" }}
+_P10K=$HOME/.local/share/powerlevel10k/powerlevel10k.zsh-theme
+_ZSH_AUTOSUGGESTIONS=/usr/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+_ZSH_SYNTAX_HIGHLIGHTING=/usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+_FZF_KEY_BINDINGS=/usr/share/doc/fzf/examples/key-bindings.zsh
+_FZF_COMPLETION=/usr/share/doc/fzf/examples/completion.zsh
+{{- end }}
+
+[ -f "$_P10K" ] && source "$_P10K"
+
+# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
+[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh
+
+# Zsh plugins
+[ -f "$_ZSH_AUTOSUGGESTIONS" ]    && source "$_ZSH_AUTOSUGGESTIONS"
+[ -f "$_ZSH_SYNTAX_HIGHLIGHTING" ] && source "$_ZSH_SYNTAX_HIGHLIGHTING"
+
+# fzf keybindings
+[ -f "$_FZF_KEY_BINDINGS" ] && source "$_FZF_KEY_BINDINGS"
+[ -f "$_FZF_COMPLETION" ]   && source "$_FZF_COMPLETION"
+
+# zoxide
+eval "$(zoxide init zsh)"

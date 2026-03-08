@@ -1,0 +1,48 @@
+#!/bin/bash
+
+{{- if eq .chezmoi.os "darwin" }}
+# detect if Brewfile has changed
+# Brewfile hash: {{ include "Brewfile" | sha256sum }}
+
+# Install packages via Homebrew
+brew bundle --file="$HOME/.local/share/chezmoi/Brewfile"
+
+# Enable fzf keybindings and completions
+$(brew --prefix)/opt/fzf/install --key-bindings --completion --no-update-rc --no-bash --no-fish
+
+{{- else if eq .chezmoi.os "linux" }}
+sudo apt-get update -q
+sudo apt-get install -y \
+  zsh \
+  zsh-autosuggestions \
+  zsh-syntax-highlighting \
+  fzf \
+  zoxide \
+  jq \
+  curl \
+  git
+
+# lazygit (not available in apt)
+if ! command -v lazygit &>/dev/null; then
+  LAZYGIT_VERSION=$(curl -s https://api.github.com/repos/jesseduffield/lazygit/releases/latest \
+    | grep '"tag_name"' | sed 's/.*"v\([^"]*\)".*/\1/')
+  curl -sLo /tmp/lazygit.tar.gz \
+    "https://github.com/jesseduffield/lazygit/releases/latest/download/lazygit_${LAZYGIT_VERSION}_Linux_x86_64.tar.gz"
+  tar -xzf /tmp/lazygit.tar.gz -C /tmp lazygit
+  sudo install /tmp/lazygit /usr/local/bin
+  rm /tmp/lazygit /tmp/lazygit.tar.gz
+fi
+
+# powerlevel10k (not available in apt)
+if [ ! -d "$HOME/.local/share/powerlevel10k" ]; then
+  git clone --depth=1 https://github.com/romkatv/powerlevel10k.git \
+    "$HOME/.local/share/powerlevel10k"
+fi
+
+# Set zsh as the default shell
+if [ "$SHELL" != "$(which zsh)" ]; then
+  chsh -s "$(which zsh)"
+fi
+{{- end }}
+
+echo "Dotfiles setup complete!"
