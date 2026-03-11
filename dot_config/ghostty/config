@@ -9,7 +9,7 @@ copy-on-select = clipboard
 clipboard-read = allow
 clipboard-write = allow
 
-font-size = 10
+font-size = 12
 
 theme = Dark Modern
 
