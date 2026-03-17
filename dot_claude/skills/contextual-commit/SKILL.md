@@ -39,6 +39,15 @@ Follow Conventional Commits exactly. Nothing changes here:
 
 Each line in the body follows: `action-type(scope): description`
 
+**When an action line or description spans multiple lines:** Prefix each line with `-` and format as a bullet list. Example:
+
+```
+intent(auth): requirements gathered from discussion
+- support Google, GitHub, Apple login
+- must work with existing session store
+- no password-based fallback per product decision
+```
+
 **scope** is a human-readable concept label — the domain area, module, or concern. Examples: `auth`, `payment-flow`, `oauth-library`, `session-store`, `api-contracts`. Use whatever is meaningful in this project's vocabulary. Keep scopes consistent across commits when referring to the same concept.
 
 ## Action Types
@@ -191,3 +200,4 @@ Contextual commits work with every standard git workflow. No special handling ne
 7. **Always explain why for `rejected` lines.** A rejection without a reason is useless — the next agent will just re-propose it.
 8. **Don't invent action lines for trivial commits.** A typo fix, a dependency bump, a formatting change — the conventional commit subject is enough.
 9. **Don't fabricate context you don't have.** If you weren't part of the reasoning, don't pretend you were. See "When You Lack Conversation Context" above.
+10. **Format multi-line content as bullet points.** When an action line or description needs multiple lines, prefix each line with `-` to create a bullet list.
