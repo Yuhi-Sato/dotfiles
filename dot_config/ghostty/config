@@ -11,5 +11,3 @@ clipboard-write = allow
 font-size = 12
 
 theme = Dark Modern
-
-keybind = global:ctrl+space=toggle_quick_terminal
